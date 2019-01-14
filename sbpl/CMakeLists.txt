@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(sbpl)
-find_package(catkin REQUIRED COMPONENTS roscpp)
+find_package(catkin REQUIRED COMPONENTS roscpp roslib)
 
 set(ROS_BUILD_TYPE Release)
 
@@ -11,10 +11,12 @@ add_definitions(-DROS)
 find_package( PkgConfig REQUIRED)
 pkg_check_modules( gsl REQUIRED gsl )
 
-include_directories(${PROJECT_SOURCE_DIR}/include)
+include_directories(${PROJECT_SOURCE_DIR}/include  ${catkin_INCLUDE_DIRS})
 
 catkin_package(
-  CATKIN_DEPENDS roscpp
+  CATKIN_DEPENDS
+    roscpp
+    roslib
   DEPENDS gsl
   INCLUDE_DIRS include
   LIBRARIES sbpl_ros
@@ -39,12 +41,12 @@ add_library(sbpl_ros
   src/utils/mdp.cpp
   src/utils/utils.cpp
   src/utils/2Dgridsearch.cpp
-  src/utils/config.cpp	
+  src/utils/config.cpp
   )
 target_link_libraries(sbpl_ros ${gsl_LIBRARIES} ${catkin_LIBRARIES})
 
 # Download needed data file
-# download_test_data(http://pr.willowgarage.com/data/sbpl/env_examples/nav2d/willow-25mm-inflated-env.cfg 
+# download_test_data(http://pr.willowgarage.com/data/sbpl/env_examples/nav2d/willow-25mm-inflated-env.cfg
 #   env_examples/nav2d/willow-25mm-inflated-env.cfg 1b4551eeba6df03b6e597e598bbaa4f3)
 
 #set(SBPL_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/include")
@@ -55,3 +57,6 @@ target_link_libraries(test_sbpl sbpl_ros)
 
 add_executable(test_adjacency_list src/test/test_adjacency_list.cpp)
 target_link_libraries(test_adjacency_list sbpl_ros)
+
+install(DIRECTORY include/${PROJECT_NAME}/
+        DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})

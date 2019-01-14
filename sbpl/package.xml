@@ -14,10 +14,12 @@
 
   <!-- Dependencies needed to compile this package. -->
   <build_depend>roscpp</build_depend>
+  <build_depend>roslib</build_depend>
   <build_depend>libgsl</build_depend>
 
   <!-- Dependencies needed after this package is compiled. -->
   <run_depend>roscpp</run_depend>
+  <run_depend>roslib</run_depend>
   <run_depend>libgsl</run_depend>
 
   <!-- Dependencies needed only for running tests. -->
