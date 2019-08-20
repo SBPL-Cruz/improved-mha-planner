@@ -31,8 +31,8 @@
 #define __LIST_H_
 
 #include <cstdlib>
-#include <sbpl/config.h>
-#include <sbpl/sbpl_exception.h>
+#include <sbpl_perch/config.h>
+#include <sbpl_perch/sbpl_exception.h>
 
 //the maximum size of the heap
 #define LISTSIZE 5000000
