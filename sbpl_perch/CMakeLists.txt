@@ -19,10 +19,10 @@ catkin_package(
     roslib
   DEPENDS gsl
   INCLUDE_DIRS include
-  LIBRARIES sbpl_ros
+  LIBRARIES sbpl_perch
   )
 
-add_library(sbpl_ros
+add_library(sbpl_perch
   src/discrete_space_information/environment_nav2D.cpp
   src/discrete_space_information/environment_navxythetalat.cpp
   src/discrete_space_information/environment_navxythetamlevlat.cpp
@@ -43,7 +43,7 @@ add_library(sbpl_ros
   src/utils/2Dgridsearch.cpp
   src/utils/config.cpp
   )
-target_link_libraries(sbpl_ros ${gsl_LIBRARIES} ${catkin_LIBRARIES})
+target_link_libraries(sbpl_perch ${gsl_LIBRARIES} ${catkin_LIBRARIES})
 
 # Download needed data file
 # download_test_data(http://pr.willowgarage.com/data/sbpl/env_examples/nav2d/willow-25mm-inflated-env.cfg
@@ -53,10 +53,20 @@ target_link_libraries(sbpl_ros ${gsl_LIBRARIES} ${catkin_LIBRARIES})
 #set(SBPL_LIB_DIR "${CMAKE_INSTALL_PREFIX}/lib")
 
 add_executable(test_sbpl src/test/main.cpp)
-target_link_libraries(test_sbpl sbpl_ros)
+target_link_libraries(test_sbpl sbpl_perch)
 
 add_executable(test_adjacency_list src/test/test_adjacency_list.cpp)
-target_link_libraries(test_adjacency_list sbpl_ros)
+target_link_libraries(test_adjacency_list sbpl_perch)
+
+install(TARGETS sbpl_perch
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+install(DIRECTORY src/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/src
+  PATTERN ".svn" EXCLUDE)
 
 install(DIRECTORY include/${PROJECT_NAME}/
         DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
